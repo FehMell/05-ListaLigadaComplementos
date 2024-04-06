@@ -113,36 +113,85 @@ void exibirElementos()
 
 void inserirElemento()
 {
-	// aloca memoria dinamicamente para o novo elemento
-	NO* novo = (NO*)malloc(sizeof(NO));
-	if (novo == NULL)
-	{
+	NO* novo = new NO;
+	if (novo == nullptr) {
 		return;
 	}
 
 	cout << "Digite o elemento: ";
 	cin >> novo->valor;
-	novo->prox = NULL;
+	novo->prox = nullptr;
 
-	if (primeiro == NULL)
-	{
+	if (primeiro == nullptr || primeiro->valor > novo->valor) {
+		novo->prox = primeiro;
 		primeiro = novo;
 	}
-	else
-	{
-		// procura o final da lista
-		NO* aux = primeiro;
-		while (aux->prox != NULL) {
-			aux = aux->prox;
+	else if (primeiro->valor == novo->valor) {
+		cout << "Elemento ja existe na lista.\n";
+		delete novo;
+		return;
+	}
+	else {
+		NO* anterior = primeiro;
+		NO* atual = primeiro->prox;
+		while (atual != nullptr && atual->valor < novo->valor) {
+			anterior = atual;
+			atual = atual->prox;
 		}
-		aux->prox = novo;
+		if (atual != nullptr && atual->valor == novo->valor) {
+			cout << "Elemento ja existe na lista.\n";
+			delete novo;
+			return;
+		}
+		anterior->prox = novo;
+		novo->prox = atual;
 	}
 }
 
 void excluirElemento()
 {
+	int numero;
+	cout << "Digite o elemento a ser excluido: ";
+	cin >> numero;
 
+	NO* anterior = nullptr;
+	NO* atual = primeiro;
+
+	while (atual != nullptr && atual->valor < numero) {
+		anterior = atual;
+		atual = atual->prox;
+	}
+
+	if (atual != nullptr && atual->valor == numero) {
+		if (anterior == nullptr) {
+			primeiro = atual->prox;
+		}
+		else {
+			anterior->prox = atual->prox;
+		}
+		delete atual;
+		cout << "Elemento excluido com sucesso.\n";
+	}
+	else {
+		cout << "Elemento nao encontrado na lista.\n";
+	}
 }
+void buscarElemento() {
+	int numero;
+	cout << "Digite o elemento a ser buscado: ";
+	cin >> numero;
 
+	NO* aux = primeiro;
+	while (aux != nullptr && aux->valor < numero) {
+		aux = aux->prox;
+	}
+
+	if (aux != nullptr && aux->valor == numero) {
+		cout << "Elemento encontrado na lista.\n";
+	}
+	else {
+		cout << "Elemento nao encontrado na lista.\n";
+	}
+}
 
 

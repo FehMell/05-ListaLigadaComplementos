@@ -114,29 +114,24 @@ void exibirElementos()
 
 void inserirElemento()
 {
-	// aloca memoria dinamicamente para o novo elemento
-	NO* novo = (NO*)malloc(sizeof(NO));
-	if (novo == NULL)
-	{
+	NO* novo = new NO;
+	if (novo == nullptr) {
 		return;
 	}
 
 	cout << "Digite o elemento: ";
 	cin >> novo->valor;
-	novo->prox = NULL;
+	novo->prox = nullptr;
 
-	if (primeiro == NULL)
-	{
+	if (primeiro == nullptr) {
 		primeiro = novo;
 	}
-	else
-	{
-		// procura o final da lista
-		NO* aux = primeiro;
-		while (aux->prox != NULL) {
-			aux = aux->prox;
+	else {
+		NO* ultimo = primeiro;
+		while (ultimo->prox != nullptr) {
+			ultimo = ultimo->prox;
 		}
-		aux->prox = novo;
+		ultimo->prox = novo;
 	}
 }
 
